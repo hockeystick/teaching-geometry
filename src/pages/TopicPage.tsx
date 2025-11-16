@@ -12,18 +12,20 @@ export default function TopicPage() {
 
   if (!topic) {
     return (
-      <div className="max-w-2xl mx-auto text-center py-12">
-        <div className="text-6xl mb-4">😕</div>
-        <h2 className="text-3xl font-bold text-gray-800 mb-4">Topic Not Found</h2>
-        <p className="text-gray-600 mb-6">
-          We couldn't find the topic you're looking for.
-        </p>
-        <Link
-          to="/"
-          className="inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
-        >
-          ← Back to Home
-        </Link>
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-2xl mx-auto text-center py-12">
+          <div className="text-6xl mb-4">😕</div>
+          <h2 className="text-3xl font-bold text-gray-800 mb-4">Topic Not Found</h2>
+          <p className="text-gray-600 mb-6">
+            We couldn't find the topic you're looking for.
+          </p>
+          <Link
+            to="/"
+            className="inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+          >
+            ← Back to Home
+          </Link>
+        </div>
       </div>
     );
   }
@@ -31,7 +33,7 @@ export default function TopicPage() {
   const TopicComponent = topic.component;
 
   return (
-    <div>
+    <div className="container mx-auto px-4 py-8">
       {/* Back to Home Link */}
       <Link
         to="/"
