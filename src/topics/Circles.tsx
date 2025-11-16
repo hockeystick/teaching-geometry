@@ -135,12 +135,24 @@ export default function Circles() {
             value={radius}
             onChange={(e) => setRadius(Number(e.target.value))}
             className="w-full h-3 bg-blue-200 rounded-lg appearance-none cursor-pointer"
+            aria-label={`Circle radius slider. Current value: ${radius} units. Diameter: ${diameter} units. Circumference: ${circumference.toFixed(2)} units`}
+            aria-valuemin={2}
+            aria-valuemax={12}
+            aria-valuenow={radius}
+            aria-valuetext={`${radius} units`}
           />
         </div>
 
         {/* SVG Circle Visualization */}
         <div className="bg-gray-50 rounded-lg p-8">
-          <svg width="100%" height="400" viewBox="0 0 500 400" className="max-w-full">
+          <svg
+            width="100%"
+            height="400"
+            viewBox="0 0 500 400"
+            className="max-w-full"
+            role="img"
+            aria-label={`Circle with radius ${radius} units, diameter ${diameter} units, and circumference ${circumference.toFixed(2)} units`}
+          >
             {/* Grid background */}
             <defs>
               <pattern id="circle-grid" width="20" height="20" patternUnits="userSpaceOnUse">

@@ -111,6 +111,11 @@ export default function AreaTriangles() {
             value={base}
             onChange={(e) => setBase(Number(e.target.value))}
             className="w-full h-3 bg-green-200 rounded-lg appearance-none cursor-pointer"
+            aria-label={`Triangle base slider. Current value: ${base} units`}
+            aria-valuemin={4}
+            aria-valuemax={16}
+            aria-valuenow={base}
+            aria-valuetext={`${base} units`}
           />
         </div>
 
@@ -130,12 +135,24 @@ export default function AreaTriangles() {
             value={height}
             onChange={(e) => setHeight(Number(e.target.value))}
             className="w-full h-3 bg-blue-200 rounded-lg appearance-none cursor-pointer"
+            aria-label={`Triangle height slider. Current value: ${height} units`}
+            aria-valuemin={3}
+            aria-valuemax={12}
+            aria-valuenow={height}
+            aria-valuetext={`${height} units`}
           />
         </div>
 
         {/* SVG Triangle Visualization */}
         <div className="bg-gray-50 rounded-lg p-8">
-          <svg width="100%" height="350" viewBox="0 0 500 350" className="max-w-full">
+          <svg
+            width="100%"
+            height="350"
+            viewBox="0 0 500 350"
+            className="max-w-full"
+            role="img"
+            aria-label={`Triangle with base ${base} units and height ${height} units. Area is ${area} square units.`}
+          >
             {/* Grid background */}
             <defs>
               <pattern id="triangle-grid" width="20" height="20" patternUnits="userSpaceOnUse">

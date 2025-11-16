@@ -129,6 +129,11 @@ export default function Angles() {
             style={{
               background: `linear-gradient(to right, ${angleInfo.color} 0%, ${angleInfo.color} ${(angle / 180) * 100}%, #E5E7EB ${(angle / 180) * 100}%, #E5E7EB 100%)`
             }}
+            aria-label={`Adjust angle from 0 to 180 degrees. Current value: ${angle} degrees, ${angleInfo.type}`}
+            aria-valuemin={0}
+            aria-valuemax={180}
+            aria-valuenow={angle}
+            aria-valuetext={`${angle} degrees - ${angleInfo.type}`}
           />
 
           <div className="flex justify-between text-xs text-gray-500 mt-1">
@@ -140,7 +145,14 @@ export default function Angles() {
 
         {/* SVG Angle Visualization */}
         <div className="bg-gray-50 rounded-lg p-8 flex items-center justify-center" style={{ height: '300px' }}>
-          <svg width="100%" height="100%" viewBox="0 0 400 300" className="max-w-full">
+          <svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 400 300"
+            className="max-w-full"
+            role="img"
+            aria-label={`Visual representation of a ${angle} degree angle, classified as ${angleInfo.type}`}
+          >
             {/* Base ray (horizontal) */}
             <line
               x1="50"

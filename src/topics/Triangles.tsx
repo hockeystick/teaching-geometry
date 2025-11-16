@@ -15,17 +15,13 @@ export default function Triangles() {
 
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
 
-  const handleMouseDown = (index: number) => {
-    setDraggingIndex(index);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
+  // Unified handler for both mouse and touch events
+  const updatePointPosition = (clientX: number, clientY: number, svg: SVGSVGElement) => {
     if (draggingIndex === null) return;
 
-    const svg = e.currentTarget;
     const rect = svg.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 400;
-    const y = ((e.clientY - rect.top) / rect.height) * 250;
+    const x = ((clientX - rect.left) / rect.width) * 400;
+    const y = ((clientY - rect.top) / rect.height) * 250;
 
     // Constrain to SVG bounds
     const constrainedX = Math.max(20, Math.min(380, x));
@@ -36,7 +32,33 @@ export default function Triangles() {
     setPoints(newPoints);
   };
 
+  // Mouse event handlers
+  const handleMouseDown = (index: number) => {
+    setDraggingIndex(index);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
+    updatePointPosition(e.clientX, e.clientY, e.currentTarget);
+  };
+
   const handleMouseUp = () => {
+    setDraggingIndex(null);
+  };
+
+  // Touch event handlers
+  const handleTouchStart = (index: number, e: React.TouchEvent) => {
+    e.preventDefault(); // Prevent scrolling while dragging
+    setDraggingIndex(index);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<SVGSVGElement>) => {
+    if (e.touches.length > 0) {
+      const touch = e.touches[0];
+      updatePointPosition(touch.clientX, touch.clientY, e.currentTarget);
+    }
+  };
+
+  const handleTouchEnd = () => {
     setDraggingIndex(null);
   };
 
@@ -180,7 +202,7 @@ export default function Triangles() {
         </div>
 
         <p className="text-gray-600 mb-4 text-sm">
-          🖱️ Drag the points to change the triangle shape!
+          🖱️ Drag the points to change the triangle shape! (Works on touch devices too)
         </p>
 
         {/* SVG Triangle Visualization */}
@@ -189,10 +211,13 @@ export default function Triangles() {
             width="100%"
             height="250"
             viewBox="0 0 400 250"
-            className="max-w-full cursor-move"
+            className="max-w-full cursor-move touch-none"
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            aria-label="Interactive triangle builder - drag the points to change the triangle shape"
           >
             {/* Triangle */}
             <polygon
@@ -242,7 +267,11 @@ export default function Triangles() {
                   stroke="white"
                   strokeWidth="2"
                   onMouseDown={() => handleMouseDown(index)}
+                  onTouchStart={(e) => handleTouchStart(index, e)}
                   className="cursor-pointer hover:opacity-80"
+                  aria-label={`Draggable point ${String.fromCharCode(65 + index)}`}
+                  role="button"
+                  tabIndex={0}
                 />
                 <text
                   x={point.x}
@@ -252,6 +281,7 @@ export default function Triangles() {
                   fontSize="14"
                   fontWeight="bold"
                   style={{ pointerEvents: 'none' }}
+                  aria-hidden="true"
                 >
                   {String.fromCharCode(65 + index)}
                 </text>

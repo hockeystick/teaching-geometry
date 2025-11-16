@@ -127,6 +127,11 @@ export default function PerimeterAreaRectangles() {
             value={width}
             onChange={(e) => setWidth(Number(e.target.value))}
             className="w-full h-3 bg-blue-200 rounded-lg appearance-none cursor-pointer"
+            aria-label={`Rectangle width slider. Current value: ${width} units`}
+            aria-valuemin={2}
+            aria-valuemax={15}
+            aria-valuenow={width}
+            aria-valuetext={`${width} units`}
           />
         </div>
 
@@ -146,12 +151,24 @@ export default function PerimeterAreaRectangles() {
             value={height}
             onChange={(e) => setHeight(Number(e.target.value))}
             className="w-full h-3 bg-purple-200 rounded-lg appearance-none cursor-pointer"
+            aria-label={`Rectangle height slider. Current value: ${height} units`}
+            aria-valuemin={2}
+            aria-valuemax={12}
+            aria-valuenow={height}
+            aria-valuetext={`${height} units`}
           />
         </div>
 
         {/* SVG Rectangle Visualization */}
         <div className="bg-gray-50 rounded-lg p-8">
-          <svg width="100%" height="300" viewBox="0 0 400 300" className="max-w-full">
+          <svg
+            width="100%"
+            height="300"
+            viewBox="0 0 400 300"
+            className="max-w-full"
+            role="img"
+            aria-label={`Rectangle with width ${width} units and height ${height} units. Perimeter is ${perimeter} units. Area is ${area} square units.`}
+          >
             {/* Grid background */}
             <defs>
               <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">

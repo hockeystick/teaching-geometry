@@ -76,7 +76,7 @@ export default function LinesAndRays() {
 
         <div className="mb-6">
           <p className="text-gray-700 mb-3">Select a type to see how it looks:</p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3" role="group" aria-label="Geometry type selector">
             {(['point', 'line', 'segment', 'ray'] as const).map((type) => (
               <button
                 key={type}
@@ -86,6 +86,8 @@ export default function LinesAndRays() {
                     ? 'bg-blue-500 text-white shadow-md'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
+                aria-pressed={selectedType === type}
+                aria-label={`Show ${type} visualization`}
               >
                 {type.charAt(0).toUpperCase() + type.slice(1)}
               </button>
@@ -95,7 +97,14 @@ export default function LinesAndRays() {
 
         {/* SVG Visualization */}
         <div className="bg-gray-50 rounded-lg p-8 flex items-center justify-center" style={{ height: '250px' }}>
-          <svg width="100%" height="100%" viewBox="0 0 400 150" className="max-w-full">
+          <svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 400 150"
+            className="max-w-full"
+            role="img"
+            aria-label={`Visual representation of a ${selectedType}`}
+          >
             {selectedType === 'point' && (
               <>
                 <circle cx="200" cy="75" r="6" fill="#3B82F6" />
