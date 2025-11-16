@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { topics } from '../data/topics';
 
 export default function HomePage() {
@@ -70,14 +71,35 @@ export default function HomePage() {
           </p>
         </div>
 
-        {/* Topic Cards Grid - Kid-friendly design with touch feedback */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        {/* Topic Cards Grid - Kid-friendly design with touch feedback and animations */}
+        <motion.div
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.1
+              }
+            }
+          }}
+        >
           {topics.map((topic) => (
-            <Link
+            <motion.div
               key={topic.id}
-              to={`/topic/${topic.id}`}
-              className="group bg-white rounded-2xl shadow-md hover:shadow-xl active:shadow-lg transition-all duration-200 overflow-hidden transform hover:-translate-y-1 active:translate-y-0 border-2 border-transparent hover:border-blue-400 active:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-300 relative active:scale-[0.98]"
+              variants={{
+                hidden: { y: 50, opacity: 0 },
+                visible: { y: 0, opacity: 1 }
+              }}
+              transition={{ duration: 0.5, type: 'spring', stiffness: 100 }}
+              whileHover={{ y: -8 }}
+              whileTap={{ scale: 0.98 }}
             >
+              <Link
+                to={`/topic/${topic.id}`}
+                className="block group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-shadow duration-300 overflow-hidden border-2 border-transparent hover:border-blue-400 focus:outline-none focus:ring-4 focus:ring-blue-300 relative touch-manipulation"
+              >
               {/* Topic Number Badge */}
               <div className="absolute top-4 left-4 bg-white text-blue-600 font-bold text-sm px-3 py-1 rounded-full shadow-md z-10 border-2 border-blue-200">
                 #{topic.order}
@@ -115,13 +137,14 @@ export default function HomePage() {
                 </div>
 
                 {/* CTA Button inside card - Larger touch target */}
-                <div className="bg-blue-500 group-hover:bg-blue-600 text-white font-semibold py-4 px-5 rounded-lg transition-colors text-center">
-                  Start Learning
+                <div className="bg-gradient-to-r from-blue-500 to-purple-500 group-hover:from-blue-600 group-hover:to-purple-600 text-white font-bold py-4 px-5 rounded-xl transition-colors text-center shadow-lg">
+                  Start Learning ✨
                 </div>
               </div>
             </Link>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
 
       {/* Minimal Tips Section - Simplified */}

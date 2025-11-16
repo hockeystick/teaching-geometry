@@ -2,7 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global typography optimized for 6th graders and iPad */
+/* Global typography optimized for 6th graders and iPad - Duolingo style */
+html {
+  font-size: 18px;
+}
+
 body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,18 +14,37 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: 18px;
-  line-height: 1.6;
+  font-size: 1.125rem;
+  line-height: 1.75;
 }
 
 /* Better readability for kids */
 @layer base {
-  h1, h2, h3, h4, h5, h6 {
+  h1 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+    font-weight: 900;
+  }
+
+  h2 {
+    font-size: 2rem;
     line-height: 1.3;
+    font-weight: 800;
+  }
+
+  h3 {
+    font-size: 1.75rem;
+    line-height: 1.3;
+    font-weight: 700;
   }
 
   p {
-    line-height: 1.7;
+    line-height: 1.75;
+  }
+
+  button {
+    font-size: 1.125rem;
+    font-weight: 600;
   }
 }
 
@@ -97,10 +120,29 @@ input[type="range"]::-moz-range-track {
   background: #e5e7eb;
 }
 
-/* Disable double-tap zoom on buttons and interactive elements */
+/* Prevent iOS tap highlight and double-tap zoom */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 button,
 a,
 input[type="range"],
+.touch-manipulation,
 .no-zoom {
   touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Minimum touch targets for accessibility */
+button,
+a {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Prevent text selection on tap */
+.touch-manipulation {
+  -webkit-user-select: none;
+  user-select: none;
 }
