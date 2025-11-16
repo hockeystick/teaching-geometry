@@ -67,7 +67,7 @@ export default function Quiz({ questions }: QuizProps) {
         </div>
         <button
           onClick={handleRestart}
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-4 px-6 rounded-lg transition-colors focus:outline-none focus:ring-4 focus:ring-blue-300"
         >
           Try Again
         </button>
@@ -102,7 +102,7 @@ export default function Quiz({ questions }: QuizProps) {
           const isSelected = selectedAnswer === index;
           const isCorrectAnswer = index === question.correctAnswer;
 
-          let buttonClass = "w-full text-left p-4 rounded-lg border-2 transition-all ";
+          let buttonClass = "w-full text-left p-4 rounded-lg border-2 transition-all focus:outline-none focus:ring-4 focus:ring-blue-300 ";
 
           if (!showFeedback) {
             buttonClass += isSelected
@@ -158,14 +158,14 @@ export default function Quiz({ questions }: QuizProps) {
           <button
             onClick={handleSubmit}
             disabled={selectedAnswer === null}
-            className="flex-1 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+            className="flex-1 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-4 px-6 rounded-lg transition-colors focus:outline-none focus:ring-4 focus:ring-blue-300"
           >
             Submit Answer
           </button>
         ) : (
           <button
             onClick={handleNext}
-            className="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+            className="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-4 px-6 rounded-lg transition-colors focus:outline-none focus:ring-4 focus:ring-blue-300"
           >
             {currentQuestion < questions.length - 1 ? 'Next Question →' : 'See Results'}
           </button>

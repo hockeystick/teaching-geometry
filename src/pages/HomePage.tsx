@@ -2,6 +2,19 @@ import { Link } from 'react-router-dom';
 import { topics } from '../data/topics';
 
 export default function HomePage() {
+  const getDifficultyColor = (difficulty: string) => {
+    switch (difficulty) {
+      case 'Beginner':
+        return 'bg-green-100 text-green-700 border-green-200';
+      case 'Easy':
+        return 'bg-blue-100 text-blue-700 border-blue-200';
+      case 'Intermediate':
+        return 'bg-purple-100 text-purple-700 border-purple-200';
+      default:
+        return 'bg-gray-100 text-gray-700 border-gray-200';
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto">
       {/* Hero Section - Clear starting point */}
@@ -63,10 +76,15 @@ export default function HomePage() {
             <Link
               key={topic.id}
               to={`/topic/${topic.id}`}
-              className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1 border-2 border-transparent hover:border-blue-400"
+              className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1 border-2 border-transparent hover:border-blue-400 focus:outline-none focus:ring-4 focus:ring-blue-300 relative"
             >
+              {/* Topic Number Badge */}
+              <div className="absolute top-4 left-4 bg-white text-blue-600 font-bold text-sm px-3 py-1 rounded-full shadow-md z-10 border-2 border-blue-200">
+                #{topic.order}
+              </div>
+
               {/* Card Header with Icon */}
-              <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-6 text-center">
+              <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-6 text-center pt-8">
                 <div className="text-6xl mb-2 group-hover:scale-110 transition-transform duration-300 inline-block">
                   {topic.icon}
                 </div>
@@ -77,12 +95,27 @@ export default function HomePage() {
                 <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
                   {topic.title}
                 </h3>
-                <p className="text-base text-gray-600 mb-5 leading-relaxed">
+                <p className="text-base text-gray-600 mb-4 leading-relaxed">
                   {topic.description}
                 </p>
 
-                {/* CTA Button inside card */}
-                <div className="bg-blue-500 group-hover:bg-blue-600 text-white font-semibold py-3 px-5 rounded-lg transition-colors text-center">
+                {/* Metadata Badges */}
+                <div className="flex flex-wrap gap-2 mb-5">
+                  <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border ${getDifficultyColor(topic.difficulty)}`}>
+                    {topic.difficulty}
+                  </span>
+                  <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-gray-100 text-gray-700 border border-gray-200 flex items-center gap-1">
+                    <span>⏱️</span>
+                    {topic.timeEstimate}
+                  </span>
+                  <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-gray-100 text-gray-700 border border-gray-200 flex items-center gap-1">
+                    <span>📝</span>
+                    {topic.activities} activities
+                  </span>
+                </div>
+
+                {/* CTA Button inside card - Larger touch target */}
+                <div className="bg-blue-500 group-hover:bg-blue-600 text-white font-semibold py-4 px-5 rounded-lg transition-colors text-center">
                   Start Learning
                 </div>
               </div>

@@ -11,6 +11,10 @@ export interface Topic {
   description: string;
   icon: string;
   component: React.ComponentType;
+  difficulty: 'Beginner' | 'Easy' | 'Intermediate';
+  timeEstimate: string;
+  activities: number;
+  order: number;
 }
 
 export const topics: Topic[] = [
@@ -20,6 +24,10 @@ export const topics: Topic[] = [
     description: 'Learn about points, lines, line segments, and rays',
     icon: '📏',
     component: LinesAndRays,
+    difficulty: 'Beginner',
+    timeEstimate: '10 min',
+    activities: 4,
+    order: 1,
   },
   {
     id: 'angles',
@@ -27,6 +35,10 @@ export const topics: Topic[] = [
     description: 'Explore acute, right, obtuse, and straight angles',
     icon: '📐',
     component: Angles,
+    difficulty: 'Beginner',
+    timeEstimate: '12 min',
+    activities: 5,
+    order: 2,
   },
   {
     id: 'triangles',
@@ -34,6 +46,10 @@ export const topics: Topic[] = [
     description: 'Discover different types of triangles by sides and angles',
     icon: '△',
     component: Triangles,
+    difficulty: 'Easy',
+    timeEstimate: '15 min',
+    activities: 5,
+    order: 3,
   },
   {
     id: 'perimeter-area-rectangles',
@@ -41,6 +57,10 @@ export const topics: Topic[] = [
     description: 'Calculate perimeter and area of rectangles',
     icon: '▭',
     component: PerimeterAreaRectangles,
+    difficulty: 'Easy',
+    timeEstimate: '12 min',
+    activities: 6,
+    order: 4,
   },
   {
     id: 'area-triangles',
@@ -48,6 +68,10 @@ export const topics: Topic[] = [
     description: 'Find the area of triangles using base and height',
     icon: '🔺',
     component: AreaTriangles,
+    difficulty: 'Intermediate',
+    timeEstimate: '12 min',
+    activities: 5,
+    order: 5,
   },
   {
     id: 'circles',
@@ -55,9 +79,29 @@ export const topics: Topic[] = [
     description: 'Understand radius, diameter, and circumference',
     icon: '⭕',
     component: Circles,
+    difficulty: 'Intermediate',
+    timeEstimate: '15 min',
+    activities: 6,
+    order: 6,
   },
 ];
 
 export function getTopicById(id: string): Topic | undefined {
   return topics.find((topic) => topic.id === id);
+}
+
+export function getNextTopic(currentId: string): Topic | undefined {
+  const currentTopic = getTopicById(currentId);
+  if (!currentTopic) return undefined;
+
+  const nextOrder = currentTopic.order + 1;
+  return topics.find((topic) => topic.order === nextOrder);
+}
+
+export function getPreviousTopic(currentId: string): Topic | undefined {
+  const currentTopic = getTopicById(currentId);
+  if (!currentTopic) return undefined;
+
+  const prevOrder = currentTopic.order - 1;
+  return topics.find((topic) => topic.order === prevOrder);
 }

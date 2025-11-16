@@ -1,5 +1,5 @@
 import { useParams, Link, Navigate } from 'react-router-dom';
-import { getTopicById } from '../data/topics';
+import { getTopicById, getNextTopic, getPreviousTopic, topics } from '../data/topics';
 
 export default function TopicPage() {
   const { id } = useParams<{ id: string }>();
@@ -31,6 +31,10 @@ export default function TopicPage() {
   }
 
   const TopicComponent = topic.component;
+  const nextTopic = getNextTopic(id);
+  const previousTopic = getPreviousTopic(id);
+  const totalTopics = topics.length;
+  const progressPercentage = (topic.order / totalTopics) * 100;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -55,8 +59,110 @@ export default function TopicPage() {
         Back to Topics
       </Link>
 
+      {/* Progress Indicator */}
+      <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 mb-8 border-2 border-blue-100">
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-3">
+            <div className="text-2xl">{topic.icon}</div>
+            <div>
+              <h2 className="text-lg font-bold text-gray-900">{topic.title}</h2>
+              <p className="text-xs text-gray-600">Topic {topic.order} of {totalTopics}</p>
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-100 text-blue-700 border border-blue-200">
+              {topic.difficulty}
+            </span>
+            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-gray-100 text-gray-700 border border-gray-200 flex items-center gap-1">
+              ⏱️ {topic.timeEstimate}
+            </span>
+          </div>
+        </div>
+        <div className="w-full bg-gray-200 rounded-full h-2.5">
+          <div
+            className="bg-gradient-to-r from-blue-500 to-purple-500 h-2.5 rounded-full transition-all duration-500"
+            style={{ width: `${progressPercentage}%` }}
+            role="progressbar"
+            aria-valuenow={topic.order}
+            aria-valuemin={1}
+            aria-valuemax={totalTopics}
+            aria-label={`Learning progress: Topic ${topic.order} of ${totalTopics}`}
+          />
+        </div>
+      </div>
+
       {/* Render the topic component */}
       <TopicComponent />
+
+      {/* Topic Navigation */}
+      <div className="mt-12 pt-8 border-t-2 border-gray-100">
+        <div className="flex justify-between items-center gap-4">
+          {/* Previous Topic Button */}
+          {previousTopic ? (
+            <Link
+              to={`/topic/${previousTopic.id}`}
+              className="flex-1 group bg-white hover:bg-blue-50 border-2 border-gray-200 hover:border-blue-400 rounded-xl p-4 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-blue-300"
+            >
+              <div className="flex items-center gap-3">
+                <div className="text-2xl group-hover:scale-110 transition-transform">
+                  ←
+                </div>
+                <div className="text-left">
+                  <div className="text-xs text-gray-500 font-semibold mb-1">
+                    PREVIOUS
+                  </div>
+                  <div className="text-sm font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+                    {previousTopic.title}
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ) : (
+            <div className="flex-1"></div>
+          )}
+
+          {/* Next Topic Button */}
+          {nextTopic ? (
+            <Link
+              to={`/topic/${nextTopic.id}`}
+              className="flex-1 group bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-xl p-4 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300"
+            >
+              <div className="flex items-center justify-end gap-3">
+                <div className="text-right">
+                  <div className="text-xs text-blue-100 font-semibold mb-1">
+                    NEXT
+                  </div>
+                  <div className="text-sm font-bold">
+                    {nextTopic.title}
+                  </div>
+                </div>
+                <div className="text-2xl group-hover:scale-110 transition-transform">
+                  →
+                </div>
+              </div>
+            </Link>
+          ) : (
+            <Link
+              to="/"
+              className="flex-1 group bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-xl p-4 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-300"
+            >
+              <div className="flex items-center justify-end gap-3">
+                <div className="text-right">
+                  <div className="text-xs text-green-100 font-semibold mb-1">
+                    COMPLETED!
+                  </div>
+                  <div className="text-sm font-bold">
+                    Back to Topics
+                  </div>
+                </div>
+                <div className="text-2xl group-hover:scale-110 transition-transform">
+                  ✓
+                </div>
+              </div>
+            </Link>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
