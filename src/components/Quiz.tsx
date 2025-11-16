@@ -67,7 +67,7 @@ export default function Quiz({ questions }: QuizProps) {
         </div>
         <button
           onClick={handleRestart}
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-4 px-6 rounded-lg transition-colors focus:outline-none focus:ring-4 focus:ring-blue-300"
+          className="w-full bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white font-bold text-lg py-5 px-6 rounded-xl transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-blue-300 min-h-[56px] active:scale-[0.98] shadow-lg"
         >
           Try Again
         </button>
@@ -95,24 +95,24 @@ export default function Quiz({ questions }: QuizProps) {
         </div>
       </div>
 
-      <p className="text-lg text-gray-800 mb-6 font-medium">{question.question}</p>
+      <p className="text-xl text-gray-900 mb-8 font-semibold leading-relaxed">{question.question}</p>
 
-      <div className="space-y-3 mb-6">
+      <div className="space-y-4 mb-8">
         {question.options.map((option, index) => {
           const isSelected = selectedAnswer === index;
           const isCorrectAnswer = index === question.correctAnswer;
 
-          let buttonClass = "w-full text-left p-4 rounded-lg border-2 transition-all focus:outline-none focus:ring-4 focus:ring-blue-300 ";
+          let buttonClass = "w-full text-left p-5 rounded-xl border-3 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-blue-300 min-h-[60px] active:scale-[0.98] ";
 
           if (!showFeedback) {
             buttonClass += isSelected
-              ? "border-blue-500 bg-blue-50"
-              : "border-gray-300 hover:border-blue-300 hover:bg-gray-50";
+              ? "border-blue-500 bg-blue-50 shadow-md"
+              : "border-gray-300 hover:border-blue-400 hover:bg-blue-50 hover:shadow-sm";
           } else {
             if (isCorrectAnswer) {
-              buttonClass += "border-green-500 bg-green-50";
+              buttonClass += "border-green-500 bg-green-50 shadow-md";
             } else if (isSelected && !isCorrect) {
-              buttonClass += "border-red-500 bg-red-50";
+              buttonClass += "border-red-500 bg-red-50 shadow-md";
             } else {
               buttonClass += "border-gray-300 bg-gray-50";
             }
@@ -126,15 +126,15 @@ export default function Quiz({ questions }: QuizProps) {
               className={buttonClass}
             >
               <div className="flex items-center">
-                <span className="flex-shrink-0 w-8 h-8 rounded-full border-2 flex items-center justify-center mr-3 font-semibold">
+                <span className="flex-shrink-0 w-10 h-10 rounded-full border-2 flex items-center justify-center mr-4 font-bold text-base">
                   {String.fromCharCode(65 + index)}
                 </span>
-                <span className="text-gray-800">{option}</span>
+                <span className="text-gray-900 text-base font-medium">{option}</span>
                 {showFeedback && isCorrectAnswer && (
-                  <span className="ml-auto text-green-600 text-xl">✓</span>
+                  <span className="ml-auto text-green-600 text-2xl">✓</span>
                 )}
                 {showFeedback && isSelected && !isCorrect && (
-                  <span className="ml-auto text-red-600 text-xl">✗</span>
+                  <span className="ml-auto text-red-600 text-2xl">✗</span>
                 )}
               </div>
             </button>
@@ -158,14 +158,14 @@ export default function Quiz({ questions }: QuizProps) {
           <button
             onClick={handleSubmit}
             disabled={selectedAnswer === null}
-            className="flex-1 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-4 px-6 rounded-lg transition-colors focus:outline-none focus:ring-4 focus:ring-blue-300"
+            className="flex-1 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold text-lg py-5 px-6 rounded-xl transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-blue-300 min-h-[56px] active:scale-[0.98] shadow-lg disabled:shadow-none"
           >
             Submit Answer
           </button>
         ) : (
           <button
             onClick={handleNext}
-            className="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-4 px-6 rounded-lg transition-colors focus:outline-none focus:ring-4 focus:ring-blue-300"
+            className="flex-1 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white font-bold text-lg py-5 px-6 rounded-xl transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-blue-300 min-h-[56px] active:scale-[0.98] shadow-lg"
           >
             {currentQuestion < questions.length - 1 ? 'Next Question →' : 'See Results'}
           </button>

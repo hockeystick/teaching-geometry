@@ -38,13 +38,14 @@ export default function TopicPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Back to Home Link */}
+      {/* Floating Home Button - Touch-friendly for iPad */}
       <Link
         to="/"
-        className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold mb-6 transition-colors"
+        className="fixed bottom-6 left-6 z-50 w-16 h-16 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-200 active:scale-95 focus:outline-none focus:ring-4 focus:ring-blue-300"
+        aria-label="Back to Topics"
       >
         <svg
-          className="w-5 h-5 mr-2"
+          className="w-8 h-8"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -52,11 +53,10 @@ export default function TopicPage() {
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeWidth={2}
-            d="M15 19l-7-7 7-7"
+            strokeWidth={2.5}
+            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
           />
         </svg>
-        Back to Topics
       </Link>
 
       {/* Progress Indicator */}

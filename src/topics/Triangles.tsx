@@ -256,29 +256,41 @@ export default function Triangles() {
               {Math.round(side3)}
             </text>
 
-            {/* Draggable points */}
+            {/* Draggable points - Larger for touch */}
             {points.map((point, index) => (
               <g key={index}>
+                {/* Larger invisible touch target */}
                 <circle
                   cx={point.x}
                   cy={point.y}
-                  r="10"
-                  fill={draggingIndex === index ? triangleType.color : '#3B82F6'}
-                  stroke="white"
-                  strokeWidth="2"
+                  r="25"
+                  fill="transparent"
                   onMouseDown={() => handleMouseDown(index)}
                   onTouchStart={(e) => handleTouchStart(index, e)}
-                  className="cursor-pointer hover:opacity-80"
+                  className="cursor-pointer"
                   aria-label={`Draggable point ${String.fromCharCode(65 + index)}`}
                   role="button"
                   tabIndex={0}
                 />
+                {/* Visual circle */}
+                <circle
+                  cx={point.x}
+                  cy={point.y}
+                  r="16"
+                  fill={draggingIndex === index ? triangleType.color : '#3B82F6'}
+                  stroke="white"
+                  strokeWidth="3"
+                  className="pointer-events-none transition-all"
+                  style={{
+                    filter: draggingIndex === index ? 'drop-shadow(0 4px 6px rgba(0,0,0,0.3))' : 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))'
+                  }}
+                />
                 <text
                   x={point.x}
-                  y={point.y - 15}
+                  y={point.y - 22}
                   textAnchor="middle"
                   fill="#374151"
-                  fontSize="14"
+                  fontSize="16"
                   fontWeight="bold"
                   style={{ pointerEvents: 'none' }}
                   aria-hidden="true"

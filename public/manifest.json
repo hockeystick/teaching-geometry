@@ -1,0 +1,19 @@
+{
+  "name": "Geometry Playground",
+  "short_name": "Geometry",
+  "description": "Interactive geometry learning app for 6th graders",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3B82F6",
+  "orientation": "any",
+  "categories": ["education", "kids"],
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

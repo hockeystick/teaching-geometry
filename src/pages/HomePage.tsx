@@ -70,13 +70,13 @@ export default function HomePage() {
           </p>
         </div>
 
-        {/* Topic Cards Grid - Kid-friendly design */}
+        {/* Topic Cards Grid - Kid-friendly design with touch feedback */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {topics.map((topic) => (
             <Link
               key={topic.id}
               to={`/topic/${topic.id}`}
-              className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1 border-2 border-transparent hover:border-blue-400 focus:outline-none focus:ring-4 focus:ring-blue-300 relative"
+              className="group bg-white rounded-2xl shadow-md hover:shadow-xl active:shadow-lg transition-all duration-200 overflow-hidden transform hover:-translate-y-1 active:translate-y-0 border-2 border-transparent hover:border-blue-400 active:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-300 relative active:scale-[0.98]"
             >
               {/* Topic Number Badge */}
               <div className="absolute top-4 left-4 bg-white text-blue-600 font-bold text-sm px-3 py-1 rounded-full shadow-md z-10 border-2 border-blue-200">
