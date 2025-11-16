@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { sounds } from '../utils/sounds';
 
 export interface QuizQuestion {
   id: number;
@@ -11,6 +12,46 @@ export interface QuizQuestion {
 
 interface QuizProps {
   questions: QuizQuestion[];
+}
+
+// Stars/Sparkles effect
+function Stars() {
+  const stars = Array.from({ length: 30 }, (_, i) => ({
+    id: i,
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    scale: Math.random() * 0.5 + 0.5,
+    delay: Math.random() * 0.5
+  }));
+
+  return (
+    <div className="fixed inset-0 pointer-events-none z-40">
+      {stars.map((star) => (
+        <motion.div
+          key={star.id}
+          className="absolute text-yellow-400"
+          style={{
+            left: `${star.x}%`,
+            top: `${star.y}%`,
+            fontSize: `${star.scale * 2}rem`
+          }}
+          initial={{ scale: 0, rotate: 0, opacity: 0 }}
+          animate={{
+            scale: [0, star.scale * 1.5, 0],
+            rotate: [0, 180, 360],
+            opacity: [0, 1, 0]
+          }}
+          transition={{
+            duration: 1.5,
+            delay: star.delay,
+            ease: 'easeOut'
+          }}
+        >
+          ⭐
+        </motion.div>
+      ))}
+    </div>
+  );
 }
 
 // Confetti component
@@ -74,12 +115,19 @@ export default function Quiz({ questions }: QuizProps) {
   const [streak, setStreak] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [showStars, setShowStars] = useState(false);
   const [showPoints, setShowPoints] = useState(false);
   const [wrongAnswer, setWrongAnswer] = useState<number | null>(null);
+  const [soundEnabled, setSoundEnabled] = useState(true);
+
+  useEffect(() => {
+    sounds.setEnabled(soundEnabled);
+  }, [soundEnabled]);
 
   const handleAnswerSelect = (answerIndex: number) => {
     if (showFeedback) return;
     setSelectedAnswer(answerIndex);
+    sounds.click();
   };
 
   const handleSubmit = () => {
@@ -93,14 +141,27 @@ export default function Quiz({ questions }: QuizProps) {
       setStreak(streak + 1);
       setShowPoints(true);
       setShowConfetti(true);
+
+      // Play success sound
+      sounds.success();
+
+      // Extra celebration for streaks
+      if (streak > 0 && streak % 3 === 0) {
+        setShowStars(true);
+        sounds.celebration();
+      } else if (streak > 0) {
+        sounds.streak();
+      }
+
       setTimeout(() => {
         setShowPoints(false);
         setShowConfetti(false);
+        setShowStars(false);
       }, 2000);
     } else {
       setStreak(0);
       setWrongAnswer(selectedAnswer);
-      // Trigger shake animation
+      sounds.error();
     }
   };
 
@@ -198,31 +259,44 @@ export default function Quiz({ questions }: QuizProps) {
   }
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl shadow-2xl p-6 md:p-8 relative">
+    <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 relative">
       {showConfetti && <Confetti />}
+      {showStars && <Stars />}
       {showPoints && <FloatingPoints points={points} />}
 
+      {/* Sound Toggle Button */}
+      <motion.button
+        whileTap={{ scale: 0.9 }}
+        onClick={() => setSoundEnabled(!soundEnabled)}
+        className="absolute top-4 right-4 z-10 w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full shadow-lg flex items-center justify-center touch-manipulation"
+        title={soundEnabled ? 'Disable sounds' : 'Enable sounds'}
+      >
+        <span className="text-xl sm:text-2xl">
+          {soundEnabled ? '🔊' : '🔇'}
+        </span>
+      </motion.button>
+
       {/* Header with streak */}
-      <div className="mb-6">
+      <div className="mb-4 sm:mb-6">
         <div className="flex justify-between items-center mb-3">
           <div>
-            <h3 className="text-2xl font-black text-gray-800">Practice Quiz</h3>
+            <h3 className="text-xl sm:text-2xl font-black text-gray-800">Practice Quiz</h3>
             {streak > 0 && (
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 className="flex items-center gap-2 mt-1"
               >
-                <span className="text-orange-500 text-xl">🔥</span>
-                <span className="text-orange-500 font-bold">{streak} streak!</span>
+                <span className="text-orange-500 text-base sm:text-xl">🔥</span>
+                <span className="text-orange-500 text-sm sm:text-base font-bold">{streak} streak!</span>
               </motion.div>
             )}
           </div>
           <div className="text-right">
-            <span className="text-sm font-semibold text-gray-600">
+            <span className="text-xs sm:text-sm font-semibold text-gray-600">
               {currentQuestion + 1} of {questions.length}
             </span>
-            <div className="text-2xl font-bold text-blue-600">
+            <div className="text-xl sm:text-2xl font-bold text-blue-600">
               {score} ⭐
             </div>
           </div>
@@ -248,18 +322,18 @@ export default function Quiz({ questions }: QuizProps) {
           exit={{ x: -50, opacity: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <p className="text-2xl md:text-3xl text-gray-900 mb-8 font-bold leading-relaxed">
+          <p className="text-xl sm:text-2xl md:text-3xl text-gray-900 mb-6 sm:mb-8 font-bold leading-relaxed">
             {question.question}
           </p>
 
           {/* Answer Cards */}
-          <div className="space-y-4 mb-8">
+          <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
             {question.options.map((option, index) => {
               const isSelected = selectedAnswer === index;
               const isCorrectAnswer = index === question.correctAnswer;
               const isWrong = showFeedback && wrongAnswer === index;
 
-              let cardClasses = "w-full text-left p-6 rounded-2xl border-4 transition-all duration-200 min-h-[90px] font-semibold text-lg touch-manipulation ";
+              let cardClasses = "w-full text-left p-4 sm:p-5 md:p-6 rounded-2xl border-4 transition-all duration-200 min-h-[80px] sm:min-h-[90px] font-semibold text-base sm:text-lg touch-manipulation ";
 
               if (!showFeedback) {
                 if (isSelected) {
