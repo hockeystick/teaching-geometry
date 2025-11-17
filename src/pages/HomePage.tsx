@@ -17,7 +17,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen">
       {/* Animated Background */}
       <div className="fixed inset-0 -z-10 overflow-hidden">
         <motion.div
@@ -33,9 +33,12 @@ export default function HomePage() {
         />
       </div>
 
+      {/* Main Container with proper padding */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
       {/* Hero Section - Clear starting point */}
       <motion.div
-        className="text-center py-12 sm:py-16 md:py-20 px-4"
+        className="text-center py-12 sm:py-16 md:py-20"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -48,7 +51,7 @@ export default function HomePage() {
           For 6th Grade Students 🎓
         </motion.div>
 
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-4 sm:mb-6 leading-tight px-2">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-4 sm:mb-6 leading-tight">
           Learn Geometry the
           <motion.span
             className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600"
@@ -59,7 +62,7 @@ export default function HomePage() {
           </motion.span>
         </h1>
 
-        <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-600 max-w-3xl mx-auto mb-6 sm:mb-8 leading-relaxed px-4">
+        <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-600 max-w-3xl mx-auto mb-6 sm:mb-8 leading-relaxed">
           Explore shapes, angles, and formulas with interactive games and quizzes
         </p>
 
@@ -105,7 +108,7 @@ export default function HomePage() {
       </motion.div>
 
       {/* Topics Section - Clear visual hierarchy */}
-      <div id="topics" className="py-12 sm:py-16 px-4">
+      <div id="topics" className="py-12 sm:py-16">
         <motion.div
           className="text-center mb-8 sm:mb-12"
           initial={{ opacity: 0 }}
@@ -116,7 +119,7 @@ export default function HomePage() {
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2 sm:mb-3">
             Choose Your Adventure 🚀
           </h2>
-          <p className="text-base sm:text-lg text-gray-600 px-4">
+          <p className="text-base sm:text-lg text-gray-600">
             Pick a topic below to start exploring!
           </p>
         </motion.div>
@@ -198,7 +201,7 @@ export default function HomePage() {
       </div>
 
       {/* Minimal Tips Section - Simplified */}
-      <div className="py-16 px-4">
+      <div className="py-16">
         <div className="max-w-4xl mx-auto bg-gradient-to-r from-green-50 to-blue-50 rounded-2xl p-6 md:p-8 border-2 border-green-200">
           <div className="text-center mb-6">
             <div className="text-3xl mb-2">💡</div>
@@ -223,6 +226,7 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
